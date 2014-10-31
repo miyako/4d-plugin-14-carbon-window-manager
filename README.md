@@ -4,6 +4,7 @@ Carbon Window Manager
 Control the close/min/max buttons and icon on 4D Carbon.
 
 Minimum version: 14 (172426)
+
 Cocoa: Compiled, but does nothing (Carbon framework is not 64 bits)
 
 ```
@@ -21,5 +22,4 @@ CWM SET ZOOM BOX (arg1;arg2)
 
 result:=CWM Get modified (arg1)
 CWM SET MODIFIED (arg1;arg2)
-
 ```
