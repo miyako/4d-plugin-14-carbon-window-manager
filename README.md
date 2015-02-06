@@ -5,9 +5,9 @@ Control the close/min/max buttons and icon on 4D Carbon.
 
 Version
 ---
-v11 (i386), v12, v13.
+v11 (i386), v12, v13, OS X 10.6+
 
-v14 requires build > 172426.
+v14 requires build > 172426, OS X 10.8+
 
 Not compatible with 4D Cocoa (x86_64), because Carbon framework is not 64 bits.
 
