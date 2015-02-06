@@ -3,9 +3,13 @@ Carbon Window Manager
 
 Control the close/min/max buttons and icon on 4D Carbon.
 
-Minimum version: 14 (172426)
+Version
+---
+v11 (i386), v12, v13.
 
-Cocoa: Compiled, but does nothing (Carbon framework is not 64 bits)
+v14 requires build > 172426.
+
+Not compatible with 4D Cocoa (x86_64), because Carbon framework is not 64 bits.
 
 ```
 result:=CWM Get window icon (arg1)
