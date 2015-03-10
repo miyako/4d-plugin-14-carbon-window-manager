@@ -11,6 +11,8 @@ v14 requires build > 172426, OS X 10.8+
 
 Not compatible with 4D Cocoa (x86_64), because Carbon framework is not 64 bits.
 
+Not compatible with R4 (32 bits) since the window is no longer carbon.
+
 ```
 result:=CWM Get window icon (arg1)
 CWM SET WINDOW ICON (arg1;arg2)
