@@ -100,9 +100,8 @@ void CWM_SET_MODIFIED(sLONG_PTR *pResult, PackagePtr pParams)
     Param1.fromParamAtIndex(pParams, 1);
     Param2.fromParamAtIndex(pParams, 2);
     
-    WindowRef windowRef = PA_GetWindowRef(Param1.getIntValue());
-    
 #ifndef __LP64__ 
+    WindowRef windowRef = PA_GetWindowRef(Param1.getIntValue());
     SetWindowModified(windowRef, Param2.getIntValue());
 #endif
 }
@@ -114,9 +113,8 @@ void CWM_Get_modified(sLONG_PTR *pResult, PackagePtr pParams)
     
     Param1.fromParamAtIndex(pParams, 1);
     
-    WindowRef windowRef = PA_GetWindowRef(Param1.getIntValue());
-    
 #ifndef __LP64__ 
+    WindowRef windowRef = PA_GetWindowRef(Param1.getIntValue());
     returnValue.setIntValue(IsWindowModified(windowRef));
 #endif
     
@@ -149,9 +147,8 @@ void CWM_SET_ZOOM_BOX(sLONG_PTR *pResult, PackagePtr pParams)
     Param1.fromParamAtIndex(pParams, 1);
     Param2.fromParamAtIndex(pParams, 2);
     
-    WindowRef windowRef = PA_GetWindowRef(Param1.getIntValue());
-    
 #ifndef __LP64__ 
+    WindowRef windowRef = PA_GetWindowRef(Param1.getIntValue());
     _setBox(windowRef, kHIWindowBitZoomBox, Param2.getIntValue());
 #endif
 }
@@ -163,9 +160,8 @@ void CWM_Get_zoom_box(sLONG_PTR *pResult, PackagePtr pParams)
     
     Param1.fromParamAtIndex(pParams, 1);
     
-    WindowRef windowRef = PA_GetWindowRef(Param1.getIntValue());
-    
 #ifndef __LP64__ 
+    WindowRef windowRef = PA_GetWindowRef(Param1.getIntValue());
     returnValue.setIntValue(_getBox(windowRef, kHIWindowBitZoomBox));
 #endif
     
@@ -180,9 +176,8 @@ void CWM_SET_CLOSE_BOX(sLONG_PTR *pResult, PackagePtr pParams)
     Param1.fromParamAtIndex(pParams, 1);
     Param2.fromParamAtIndex(pParams, 2);
     
-     WindowRef windowRef = PA_GetWindowRef(Param1.getIntValue());
-    
 #ifndef __LP64__ 
+     WindowRef windowRef = PA_GetWindowRef(Param1.getIntValue());
     _setBox(windowRef, kHIWindowBitCloseBox, Param2.getIntValue());
 #endif
 }
@@ -194,9 +189,8 @@ void CWM_Get_close_box(sLONG_PTR *pResult, PackagePtr pParams)
     
     Param1.fromParamAtIndex(pParams, 1);
     
-    WindowRef windowRef = PA_GetWindowRef(Param1.getIntValue());
-    
 #ifndef __LP64__ 
+    WindowRef windowRef = PA_GetWindowRef(Param1.getIntValue());
     returnValue.setIntValue(_getBox(windowRef, kHIWindowBitCloseBox));
 #endif
     
@@ -211,9 +205,8 @@ void CWM_SET_COLLAPSE_BOX(sLONG_PTR *pResult, PackagePtr pParams)
     Param1.fromParamAtIndex(pParams, 1);
     Param2.fromParamAtIndex(pParams, 2);
     
-     WindowRef windowRef = PA_GetWindowRef(Param1.getIntValue());
-    
 #ifndef __LP64__ 
+     WindowRef windowRef = PA_GetWindowRef(Param1.getIntValue());
     _setBox(windowRef, kHIWindowBitCollapseBox, Param2.getIntValue());
 #endif
 }
@@ -225,9 +218,8 @@ void CWM_Get_collapse_box(sLONG_PTR *pResult, PackagePtr pParams)
     
     Param1.fromParamAtIndex(pParams, 1);
     
-     WindowRef windowRef = PA_GetWindowRef(Param1.getIntValue());
-    
 #ifndef __LP64__ 
+     WindowRef windowRef = PA_GetWindowRef(Param1.getIntValue());
     returnValue.setIntValue(_getBox(windowRef, kHIWindowBitCollapseBox));
 #endif
     
@@ -248,6 +240,8 @@ NSString *generateUuid(){
 }
 #endif
 
+#define WINDOW_ICON_SIZE 16
+
 void CWM_SET_WINDOW_ICON(sLONG_PTR *pResult, PackagePtr pParams)
 {
     C_LONGINT Param1;
@@ -255,11 +249,9 @@ void CWM_SET_WINDOW_ICON(sLONG_PTR *pResult, PackagePtr pParams)
     
     Param1.fromParamAtIndex(pParams, 1);
     Param2.fromParamAtIndex(pParams, 2);
-    
-     WindowRef windowRef = PA_GetWindowRef(Param1.getIntValue());
-    
-    //carbon api    
+   
 #ifndef __LP64__ 
+     WindowRef windowRef = PA_GetWindowRef(Param1.getIntValue());
     PA_Picture picture = Param2.createThumbnail(48,48);
     CGImageRef image = (CGImageRef)PA_CreateNativePictureForScreen(picture);
     if(image){
@@ -292,22 +284,41 @@ void CWM_SET_WINDOW_ICON(sLONG_PTR *pResult, PackagePtr pParams)
 void CWM_Get_window_icon(sLONG_PTR *pResult, PackagePtr pParams)
 {
     C_LONGINT Param1;
-    C_PICTURE returnValue;
     
     Param1.fromParamAtIndex(pParams, 1);
-    
-     WindowRef windowRef = PA_GetWindowRef(Param1.getIntValue());
-    
-    //carbon api    
+
 #ifndef __LP64__ 
+     WindowRef windowRef = PA_GetWindowRef(Param1.getIntValue());
     IconRef iconRef;
     if(GetWindowProxyIcon(windowRef, &iconRef) != errWindowDoesNotHaveProxy)
     {
-        NSImage *icon = [[NSImage alloc]initWithIconRef:iconRef];
-        returnValue.setImage(icon);
-        [icon release];
+        NSImage *largeIcon = [[NSImage alloc]initWithIconRef:iconRef];
+        if(largeIcon){
+            [largeIcon setScalesWhenResized:YES];
+            NSImage *icon = [[NSImage alloc]initWithSize:NSMakeSize(WINDOW_ICON_SIZE/2, WINDOW_ICON_SIZE/2)];
+            [icon lockFocus];
+            [largeIcon setSize:NSMakeSize(WINDOW_ICON_SIZE/2, WINDOW_ICON_SIZE/2)];
+            [[NSGraphicsContext currentContext]setImageInterpolation:NSImageInterpolationHigh];
+            [largeIcon compositeToPoint:NSZeroPoint operation:NSCompositeCopy];
+            [icon unlockFocus];
+            [largeIcon release];
+            //return picture without memory leak; avoid the use of - TIFFRepresentation
+            NSRect imageRect = NSMakeRect(0, 0, icon.size.width, icon.size.height);
+            CGImageRef image = [icon CGImageForProposedRect:(NSRect *)&imageRect context:NULL hints:NULL];
+            CFMutableDataRef data = CFDataCreateMutable(kCFAllocatorDefault, 0);
+            CGImageDestinationRef destination = CGImageDestinationCreateWithData(data, kUTTypeTIFF, 1, NULL);
+            CFMutableDictionaryRef properties = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, NULL, NULL);
+            CGImageDestinationAddImage(destination, image, properties);
+            CGImageDestinationFinalize(destination);
+            PA_Picture picture = PA_CreatePicture((void *)CFDataGetBytePtr(data), CFDataGetLength(data));
+            
+            *(PA_Picture*) pResult = picture;
+            CFRelease(destination);
+            CFRelease(properties);
+            CFRelease(data);
+
+            [icon release];
+        }
     }
 #endif
-    
-    returnValue.setReturn(pResult);
 }
