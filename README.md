@@ -3,14 +3,13 @@ Carbon Window Manager
 
 Control the close/min/max buttons and icon of a window.
 
-##Platform
+### Platform
 
 | carbon | cocoa | win32 | win64 |
 |:------:|:-----:|:---------:|:---------:|
-|🆗|🚫|🚫|🚫|
+|<img src="https://cloud.githubusercontent.com/assets/1725068/22371562/1b091f0a-e4db-11e6-8458-8653954a7cce.png" width="24" height="24" />||||
 
-
-###Remarks
+### Remarks
 
 * Not compatible with 4D Cocoa (x86_64), because Carbon framework is not 64 bits.
 
