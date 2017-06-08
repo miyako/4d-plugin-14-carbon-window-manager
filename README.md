@@ -15,25 +15,7 @@ Control the close/min/max buttons and icon of a window.
 
 * Not compatible with R4 (32 bits) since the window is no longer carbon.
 
-Commands
----
-
-```c
-// --- Visual Attributes
-CWM_SET_MODIFIED
-CWM_Get_modified
-CWM_SET_ZOOM_BOX
-CWM_Get_zoom_box
-CWM_SET_CLOSE_BOX
-CWM_Get_close_box
-CWM_SET_COLLAPSE_BOX
-CWM_Get_collapse_box
-CWM_SET_WINDOW_ICON
-CWM_Get_window_icon
-```
-
-Examples
----
+### Examples
 
 ```
 result:=CWM Get window icon (arg1)
