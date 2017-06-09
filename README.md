@@ -15,7 +15,7 @@ Control the close/min/max buttons and icon of a window.
 
 * Not compatible with R4 (32 bits) since the window is no longer carbon.
 
-### Examples
+## Examples
 
 ```
 result:=CWM Get window icon (arg1)
