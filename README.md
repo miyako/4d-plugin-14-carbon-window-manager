@@ -9,11 +9,7 @@ Control the close/min/max buttons and icon of a window.
 |:------:|:-----:|:---------:|:---------:|
 |<img src="https://cloud.githubusercontent.com/assets/1725068/22371562/1b091f0a-e4db-11e6-8458-8653954a7cce.png" width="24" height="24" />||||
 
-### Remarks
-
-* Not compatible with 4D Cocoa (x86_64), because Carbon framework is not 64 bits.
-
-* Not compatible with R4 (32 bits) since the window is no longer carbon.
+![obsolete-word-black-frame-word-obsolete-word-black-frame-d-rendering-123942590](https://user-images.githubusercontent.com/1725068/78463940-29122280-771e-11ea-8be8-a7830725403e.jpg)
 
 ## Examples
 
